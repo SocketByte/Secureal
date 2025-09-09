@@ -3,6 +3,8 @@ import { useWindowContext } from "./WindowContext"
 import { useTitlebarContext } from "./TitlebarContext"
 import { TitlebarMenu } from "./TitlebarMenu"
 import { useConveyor } from "@/app/hooks/use-conveyor"
+import { BellOff, Settings, SignalHigh, Unplug, UserPen } from "lucide-react"
+import { Badge } from "../ui/badge"
 
 const SVG_PATHS = {
   close: "M 0,0 0,0.7 4.3,5 0,9.3 0,10 0.7,10 5,5.7 9.3,10 10,10 10,9.3 5.7,5 10,0.7 10,0 9.3,0 5,4.3 0.7,0 Z",
@@ -11,21 +13,8 @@ const SVG_PATHS = {
 } as const
 
 export const Titlebar = () => {
-  const { title, icon, titleCentered, menuItems } = useWindowContext().titlebar
-  const { menusVisible, setMenusVisible, closeActiveMenu } = useTitlebarContext()
+  const { title, icon, titleCentered } = useWindowContext().titlebar
   const { window: wcontext } = useWindowContext()
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.altKey && menuItems?.length && !e.repeat) {
-        if (menusVisible) closeActiveMenu()
-        setMenusVisible(!menusVisible)
-      }
-    }
-
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [menusVisible, closeActiveMenu, setMenusVisible, menuItems])
 
   return (
     <div className={`window-titlebar ${wcontext?.platform ? `platform-${wcontext.platform}` : ""}`}>
@@ -36,13 +25,21 @@ export const Titlebar = () => {
       )}
 
       <div
-        className="window-titlebar-title"
+        className="window-titlebar-title flex flex-row gap-4 items-center pt-0.5"
         {...(titleCentered && { "data-centered": true })}
-        style={{ visibility: menusVisible ? "hidden" : "visible" }}
+        style={{ visibility: "visible" }}
       >
-        {title}
+        <p className="font-medium text-xs">Secureal</p>
+        <p className="font-normal text-xs">Connected to 127.0.0.1:8392</p>
+        <div className="text-green-500 flex flex-row gap-1 items-center"><span>18ms</span> <SignalHigh className="size-4 pb-[1px]"/></div>
+        <div className="flex flex-row items-center gap-2">
+        <Settings className="text-muted-foreground size-4"/>
+        <UserPen className="text-muted-foreground size-4"/>
+        <Unplug className="text-muted-foreground size-4"/>
+        <BellOff className="text-muted-foreground size-4"/>
+        </div>
       </div>
-      {menusVisible && <TitlebarMenu />}
+   
       {wcontext?.platform === "win32" && <TitlebarControls />}
     </div>
   )
