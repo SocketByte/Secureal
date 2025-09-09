@@ -33,7 +33,7 @@ body,
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(99, 99, 99, 0.8);
 }
 
 ::-webkit-scrollbar-corner {

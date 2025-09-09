@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { Input } from "../ui/input"
 import { ScrollArea } from "../ui/scroll-area"
+import { Check } from "lucide-react"
 
 interface UserProps {
   name: string
@@ -32,7 +33,7 @@ const User = (props: UserProps) => {
 
       <div className="flex flex-col flex-1 justify-center min-w-0">
         <div className="flex justify-between items-center min-w-0">
-          <p className="font-medium truncate min-w-0 leading-5">{name}</p>
+          <span className="font-medium truncate min-w-0 leading-5">{name}</span>
           <time
             className={cn("text-xs text-muted-foreground ml-2 flex-shrink-0", {
               "text-white": selected,
