@@ -6,7 +6,8 @@
       "@/app/*": ["./app/*"],
       "@/lib/*": ["./lib/*"],
       "@/resources/*": ["./resources/*"]
-    }
+    },
+    "noUnusedLocals": false
   },
   "files": [],
   "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.web.json" }]
