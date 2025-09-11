@@ -45,7 +45,7 @@ export const Stepper = (props: StepperProps) => {
 
   return (
     <VStack className="w-full h-full">
-      <HStack className="px-6 shadow py-4 rounded-xl w-full justify-around relative">
+      <HStack className="px-6 py-4 w-full justify-around relative bg-background/30">
         {steps.map((step, index) => (
           <VStack key={index} className="relative gap-4 justify-center w-full items-center">
             <motion.div
@@ -70,10 +70,10 @@ export const Stepper = (props: StepperProps) => {
               {index + 1}
             </motion.div>
             <div className="text-sm text-neutral-400">{step.label}</div>
-            {index !== steps.length - 1 && <div className="absolute w-full h-0.5 bg-primary left-1/2 top-5 z-0" />}
+            {index !== steps.length - 1 && <div className="absolute w-full h-0.5 bg-muted left-1/2 top-5 z-0" />}
             {index !== steps.length - 1 && (
               <motion.div
-                className="absolute h-0.5 left-1/2 top-5 z-0"
+                className="absolute h-0.5 left-1/2 top-5 z-0 bg-primary "
                 initial={{ width: 0, backgroundColor: inactiveColor }}
                 animate={{
                   width: index < currentStep ? "100%" : 0,

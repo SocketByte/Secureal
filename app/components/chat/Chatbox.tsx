@@ -35,7 +35,7 @@ export const Chatbox = () => {
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel defaultSize={8}>
-        <div className="flex flex-row items-start">
+        <div className="flex flex-row items-start h-full">
           <Input placeholder="Write a message..." className="h-full rounded-none border-none" />
           <Button className="h-full rounded-none cursor-pointer" variant="secondary">
             <SevenTVIcon />

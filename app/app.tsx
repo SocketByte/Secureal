@@ -8,48 +8,51 @@ import { VerificationKeysSetupLayout } from "@/app/components/welcome/Verificati
 
 export default function App() {
   const [step, setStep] = useState<number>(0)
+  const [isWelcomePage, setWelcomePage] = useState(true)
   return (
     <div className="w-full h-full">
-      <Stepper
-        currentStep={step}
-        submitLabel="Continue"
-        onStepChange={(step) => {
-          setStep(step)
-        }}
-        onNext={() => {}}
-        onPrevious={() => {}}
-        steps={[
-          {
-            label: "Welcome to Secureal!",
-            content: <WelcomeLayout />,
-            validator: () => {
-              return true
+      {isWelcomePage && (
+        <WelcomeLayout
+          onContinue={() => {
+            setWelcomePage(false)
+          }}
+        />
+      )}
+      {!isWelcomePage && (
+        <Stepper
+          currentStep={step}
+          submitLabel="Continue"
+          onStepChange={(step) => {
+            setStep(step)
+          }}
+          onNext={() => {}}
+          onPrevious={() => {}}
+          steps={[
+            {
+              label: "Join the server",
+              content: <JoinServerLayout />,
+              validator: () => {
+                return true
+              },
             },
-          },
-          {
-            label: "Join the server",
-            content: <JoinServerLayout />,
-            validator: () => {
-              return true
+            {
+              label: "Setup verification keys",
+              content: <VerificationKeysSetupLayout />,
+              validator: () => {
+                return true
+              },
             },
-          },
-          {
-            label: "Setup verification keys",
-            content: <VerificationKeysSetupLayout />,
-            validator: () => {
-              return true
+            {
+              label: "Create application password",
+              content: <></>,
+              validator: () => {
+                return true
+              },
             },
-          },
-          {
-            label: "Create application password",
-            content: <></>,
-            validator: () => {
-              return true
-            },
-          },
-        ]}
-        onSubmit={() => {}}
-      />
+          ]}
+          onSubmit={() => {}}
+        />
+      )}
     </div>
   )
 }
