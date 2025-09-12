@@ -6,7 +6,7 @@ import { Users } from "./Users"
 
 export const ApplicationLayout = () => {
   return (
-    <ResizablePanelGroup direction="horizontal" className="w-full bg-background/60">
+    <ResizablePanelGroup direction="horizontal" className="w-full bg-background/60 select-text">
       <ResizablePanel defaultSize={35}>
         <ResizablePanelGroup direction="vertical">
           <ResizablePanel defaultSize={40}>
