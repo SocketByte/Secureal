@@ -3,6 +3,7 @@ import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "../ui/resizable"
 import { Textarea } from "../ui/textarea"
+import React, { useEffect, useRef } from "react"
 
 const SevenTVIcon = () => {
   return (
@@ -25,12 +26,241 @@ const SevenTVIcon = () => {
   )
 }
 
+import { useVirtualizer } from "@tanstack/react-virtual"
+import { cn } from "@/lib/utils"
+import { Spacer } from "../form/Spacer"
+import { useInfiniteQuery } from "@tanstack/react-query"
+
+interface Message {
+  position: "right" | "left"
+  time: number
+  type: "text" | "photo" | "file"
+  message: any
+  metadata?: any
+}
+
+const messages: Message[] = [
+  {
+    position: "left",
+    type: "text",
+    time: Date.now(),
+    message: "Siema ziomek",
+  },
+  {
+    position: "right",
+    type: "text",
+    time: Date.now(),
+    message: "elo co tam, dawno sie nie widzielismy",
+  },
+  {
+    position: "left",
+    type: "text",
+    time: Date.now(),
+    message:
+      "ty sluchaj bo mam taka potezna propozycje finansowa, mowie ci gosciu 100% skorzystasz, wystarczy ze wplacisz hajs na tej stronce i powiesz innym zeby wplacili i oni ci wyplaca 5x twoja kwote, mowie ci no scam, tylko zrob to z mojego linku",
+  },
+  {
+    position: "left",
+    type: "text",
+    time: Date.now(),
+    message: "Siema ziomek",
+  },
+  {
+    position: "right",
+    type: "text",
+    time: Date.now(),
+    message: "elo co tam, dawno sie nie widzielismy",
+  },
+  {
+    position: "left",
+    type: "text",
+    time: Date.now(),
+    message:
+      "ty sluchaj bo mam taka potezna propozycje finansowa, mowie ci gosciu 100% skorzystasz, wystarczy ze wplacisz hajs na tej stronce i powiesz innym zeby wplacili i oni ci wyplaca 5x twoja kwote, mowie ci no scam, tylko zrob to z mojego linku",
+  },
+  {
+    position: "left",
+    type: "text",
+    time: Date.now(),
+    message: "Siema ziomek",
+  },
+  {
+    position: "right",
+    type: "text",
+    time: Date.now(),
+    message: "elo co tam, dawno sie nie widzielismy",
+  },
+  {
+    position: "left",
+    type: "text",
+    time: Date.now(),
+    message:
+      "ty sluchaj bo mam taka potezna propozycje finansowa, mowie ci gosciu 100% skorzystasz, wystarczy ze wplacisz hajs na tej stronce i powiesz innym zeby wplacili i oni ci wyplaca 5x twoja kwote, mowie ci no scam, tylko zrob to z mojego linku",
+  },
+  {
+    position: "left",
+    type: "text",
+    time: Date.now(),
+    message: "Siema ziomek",
+  },
+  {
+    position: "right",
+    type: "text",
+    time: Date.now(),
+    message: "elo co tam, dawno sie nie widzielismy",
+  },
+  {
+    position: "left",
+    type: "text",
+    time: Date.now(),
+    message:
+      "ty sluchaj bo mam taka potezna propozycje finansowa, mowie ci gosciu 100% skorzystasz, wystarczy ze wplacisz hajs na tej stronce i powiesz innym zeby wplacili i oni ci wyplaca 5x twoja kwote, mowie ci no scam, tylko zrob to z mojego linku",
+  },
+  {
+    position: "left",
+    type: "text",
+    time: Date.now(),
+    message: "Siema ziomek",
+  },
+  {
+    position: "right",
+    type: "text",
+    time: Date.now(),
+    message: "elo co tam, dawno sie nie widzielismy",
+  },
+  {
+    position: "left",
+    type: "text",
+    time: Date.now(),
+    message:
+      "ty sluchaj bo mam taka potezna propozycje finansowa, mowie ci gosciu 100% skorzystasz, wystarczy ze wplacisz hajs na tej stronce i powiesz innym zeby wplacili i oni ci wyplaca 5x twoja kwote, mowie ci no scam, tylko zrob to z mojego linku",
+  },
+  {
+    position: "left",
+    type: "text",
+    time: Date.now(),
+    message: "Siema ziomek",
+  },
+  {
+    position: "right",
+    type: "text",
+    time: Date.now(),
+    message: "elo co tam, dawno sie nie widzielismy",
+  },
+  {
+    position: "left",
+    type: "text",
+    time: Date.now(),
+    message:
+      "ty sluchaj bo mam taka potezna propozycje finansowa, mowie ci gosciu 100% skorzystasz, wystarczy ze wplacisz hajs na tej stronce i powiesz innym zeby wplacili i oni ci wyplaca 5x twoja kwote, mowie ci no scam, tylko zrob to z mojego linku",
+  },
+  {
+    position: "left",
+    type: "text",
+    time: Date.now(),
+    message: "Siema ziomek",
+  },
+  {
+    position: "right",
+    type: "text",
+    time: Date.now(),
+    message: "elo co tam, dawno sie nie widzielismy",
+  },
+  {
+    position: "left",
+    type: "text",
+    time: Date.now(),
+    message: "fwefwefwefwefwefwefwefwefwefwefwefwefwefwefwee, mowie ci no scam, tylko zrob to z mojego linku",
+  },
+]
+
+interface ChatBubbleProps {
+  index: number
+  lastIndex: number
+  position: "right" | "left"
+  time: number
+  children: React.ReactNode
+}
+
+const ChatBubble = (props: ChatBubbleProps) => {
+  const { index, lastIndex, position, time, children } = props
+
+  return (
+    <div
+      className={cn("flex flex-row items-center", {
+        "justify-start": position === "left",
+        "justify-end": position === "right",
+      })}
+    >
+      <div
+        className={cn("rounded-lg px-2 py-1 max-w-2/3", {
+          "bg-secondary": position === "left",
+          "bg-secondary/60": position === "right",
+        })}
+      >
+        {children}
+      </div>
+    </div>
+  )
+}
+
 export const Chatbox = () => {
+  const parentRef = useRef(null)
+  const messageVirtualizer = useVirtualizer({
+    count: messages.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 35,
+    overscan: 5,
+  })
+
+  useEffect(() => {
+    if (messageVirtualizer) {
+      messageVirtualizer.scrollToIndex(messages.length - 1, {
+        align: "end",
+      })
+    }
+  }, [messageVirtualizer])
+
+  const items = messageVirtualizer.getVirtualItems()
+
   return (
     <ResizablePanelGroup direction="vertical">
-      <ResizablePanel defaultSize={92}>
-        <div className="flex h-full items-center justify-center">
-          <span className="font-semibold">Chatbox</span>
+      <ResizablePanel defaultSize={92} className="relative">
+        <div className="absolute w-full h-full overflow-y-scroll contain-strict" ref={parentRef}>
+          <div
+            className="w-full relative"
+            style={{
+              height: `${messageVirtualizer.getTotalSize()}px`,
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                transform: `translateY(${items[0]?.start ?? 0}px)`,
+              }}
+            >
+              {items.map((virtualItem) => (
+                <div
+                  key={virtualItem.key}
+                  ref={messageVirtualizer.measureElement}
+                  data-index={virtualItem.index}
+                  className="pb-1 px-3"
+                >
+                  <ChatBubble
+                    index={virtualItem.index}
+                    lastIndex={messages.length - 1}
+                    position={messages[virtualItem.index].position}
+                    time={messages[virtualItem.index].time}
+                  >
+                    <p>{messages[virtualItem.index].message}</p>
+                  </ChatBubble>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </ResizablePanel>
       <ResizableHandle />
