@@ -9,8 +9,8 @@
   --window-background-transition-duration: 0.3s;
   --window-c-popup-font-weight: normal;
 
-  --window-c-background: #1c1c1c;
-  --window-c-titlebar-background: #282828;
+  --window-c-background: #202020;
+  --window-c-titlebar-background: #1b1b1b;
   --window-c-titlebar-border: transparent;
   --window-c-text: #ffffffc8;
   --window-c-hover: #3c3c3c;
@@ -125,6 +125,10 @@
   left: var(--window-title-margin);
   -webkit-app-region: no-drag;
   font-size: var(--window-titlebar-font-size);
+}
+
+.window-settings {
+  -webkit-app-region: no-drag;
 }
 
 .titlebar-menuItem .menuItem-label {

@@ -9,14 +9,14 @@ export function createAppWindow(): void {
   registerResourcesProtocol()
 
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1100,
+    height: 790,
     show: false,
     backgroundColor: "#1c1c1c",
     icon: appIcon,
     frame: false,
     titleBarStyle: "hiddenInset",
-    title: "Electron React App",
+    title: "Secureal",
     maximizable: true,
     resizable: true,
     webPreferences: {

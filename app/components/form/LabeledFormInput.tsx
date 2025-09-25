@@ -4,11 +4,10 @@ import { Input } from "@/app/components/ui/input"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/app/components/ui/tooltip"
 import { Info } from "lucide-react"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage, useFormField } from "@/app/components/ui/form"
-import { Control, useFormContext } from "react-hook-form"
+import { Control, ControllerRenderProps, useFormContext } from "react-hook-form"
 import { Textarea } from "@/app/components/ui/textarea"
-import { ControllerRenderProps } from "react-hook-form/dist/types/controller"
 
-export interface LabeledFormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface LabeledFormInputProps {
   label: string
   name: string
   tooltip?: string
