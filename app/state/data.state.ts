@@ -28,12 +28,12 @@ export type ClientData = {
   contacts: Contact[]
 }
 
-const clientData = atomWithStorage<ClientData>("clientData", {
+const clientData = atom<ClientData>({
   id: "cmfi9w0f60000vdfkbt0585l5",
   username: "SocketByte",
   avatarUrl: "https://github.com/shadcn.png",
   serverAddress: "89.69.180.180",
-  serverPort: "5000",
+  serverPort: "51277",
   serverKey: "308a530fba8b685de8dbeb0e8aa7550ad232293185272061cd6c9f89f9f43d99",
   publicKey: "T+0cQCJxKR/NER76isvN556bxUR9FERyOA0h0UmVo08=",
   privateKey: "TwhTwPEpo0zHihOTwC50Pfmo9Z/nEq3GzXsgXmZzfvM=",

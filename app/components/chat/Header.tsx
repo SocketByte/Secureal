@@ -186,6 +186,18 @@ export const Header = () => {
     }
   }, [socket, contact])
 
+  const [emojiA, setEmojiA] = useState("")
+  const [emojiB, setEmojiB] = useState("")
+
+  useEffect(() => {
+    if (!contact || !data) {
+      return
+    }
+
+    keyToEmojis(contact.otherUser.publicKey).then((e) => setEmojiA(e || ""))
+    keyToEmojis(data.publicKey).then((e) => setEmojiB(e || ""))
+  }, [contact, data])
+
   return (
     <div className="flex flex-row w-full h-full items-center justify-start p-4">
       <div className="flex flex-row items-center justify-start gap-4 w-full">
@@ -239,6 +251,11 @@ export const Header = () => {
               Ask this user through mail, SMS, or voice call whether their emojis match yours to make sure you are
               messaging the correct person.
             </p>
+            <p className="mt-4">
+              Verification emojis for <span className="text-accent">{contact?.otherUser.username}</span>:
+            </p>
+            <p className="text-xl">{emojiA}</p>
+            <p className="mt-4">Your verification emojis:</p> <p className="text-xl">{emojiB}</p>
           </HoverCardContent>
         </HoverCard>
 

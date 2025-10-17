@@ -3,6 +3,7 @@ import { Spacer } from "../form/Spacer"
 import { HStack, VStack } from "../layout/Stack"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { useClientData } from "@/app/state/data.state"
+import { generateKeyPair } from "@/app/crypto/crypto"
 
 interface ConnectedUserProps {
   avatarUrl?: string
